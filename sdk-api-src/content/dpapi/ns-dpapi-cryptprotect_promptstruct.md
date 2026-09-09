@@ -59,6 +59,14 @@ The <b>CRYPTPROTECT_PROMPTSTRUCT</b> structure provides the text of a prompt and
 <a href="/windows/desktop/api/dpapi/nf-dpapi-cryptprotectdata">CryptProtectData</a> and 
 <a href="/windows/desktop/api/dpapi/nf-dpapi-cryptunprotectdata">CryptUnprotectData</a> functions.
 
+[!IMPORTANT] The prompt-based UI experience provided by CRYPTPROTECT_PROMPTSTRUCT for CryptProtectData and CryptUnprotectData is planned for retirement in April 2027. This change applies only to prompt-based UI flows. DPAPI and non-interactive protect and unprotect operations are not being retired.
+
+Before retirement, update applications to stop creating new data that depends on CRYPTPROTECT_PROMPT_ON_PROTECT or CRYPTPROTECT_PROMPT_ON_UNPROTECT. For new and updated code, use non-interactive calls, such as passing NULL for pPromptStruct. Decrypt and migrate existing prompt-protected data, or re-protect it by using a supported non-interactive flow.
+
+Data protected with the confirmation prompt (medium protection) can continue to be decrypted without the prompt UI by setting AllowMediumUnprotectWithoutUI to 1 under HKLM\SOFTWARE\Microsoft\Cryptography\Protect\Providers\df9d8cd0-1501-11d1-8c7a-00c04fc297eb.
+
+[!WARNING] Data protected with the password prompt (high protection) must be decrypted before April 2027. AllowMediumUnprotectWithoutUI does not apply to password-protected data. After the prompt-based UI is retired, password-protected data that has not been decrypted will no longer be recoverable.
+
 ## -struct-fields
 
 ### -field cbSize
